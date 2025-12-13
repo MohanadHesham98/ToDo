@@ -1,0 +1,60 @@
+version: '3.9'
+
+services:
+  auth-service:
+    build: ./auth-service
+    container_name: auth-service
+    env_file:
+      - .env
+    ports:
+      - "8001:8001"
+    networks:
+      - todo-network
+    volumes:
+      - auth_data:/app/data
+
+  todo-service:
+    build: ./todo-service
+    container_name: todo-service
+    env_file:
+      - .env
+    ports:
+      - "8002:8002"
+    depends_on:
+      - auth-service
+    networks:
+      - todo-network
+    volumes:
+      - todo_data:/app/data
+
+  alarm-service:
+    build: ./alarm-service
+    container_name: alarm-service
+    env_file:
+      - .env
+    ports:
+      - "8003:8003"
+    depends_on:
+      - auth-service
+      - todo-service
+
+    networks:
+      - todo-network
+    volumes:
+      - alarm_data:/app/data
+
+  todo-frontend:
+    build: ./frontend
+    container_name: todo-frontend
+    ports:
+      - "8080:80"
+    networks:
+      - todo-network
+
+networks:
+  todo-network:
+
+volumes:
+  auth_data:
+  todo_data:
+  alarm_data:
