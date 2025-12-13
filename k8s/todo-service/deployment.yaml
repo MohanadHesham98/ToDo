@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-service
+  namespace: todo-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todo-service
+  template:
+    metadata:
+      labels:
+        app: todo-service
+    spec:
+      containers:
+      - name: todo-service
+        image: todo-todo-service:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8002
+        envFrom:
+        - configMapRef:
+            name: todo-config
+        - secretRef:
+            name: todo-secret
+        volumeMounts:
+        - name: todo-data
+          mountPath: /app/data
+      volumes:
+      - name: todo-data
+        persistentVolumeClaim:
+          claimName: todo-pvc

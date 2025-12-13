@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-service
+  namespace: todo-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth-service
+  template:
+    metadata:
+      labels:
+        app: auth-service
+    spec:
+      containers:
+      - name: auth-service
+        image: todo-auth-service:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8001
+        envFrom:
+        - configMapRef:
+            name: todo-config
+        - secretRef:
+            name: todo-secret
+        volumeMounts:
+        - name: auth-data
+          mountPath: /app/data
+      volumes:
+      - name: auth-data
+        persistentVolumeClaim:
+          claimName: auth-pvc

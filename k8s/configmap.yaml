@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: todo-config
+  namespace: todo-app
+data:
+  ALARM_CHECK_INTERVAL: "60"
+  AUTH_URL: "http://auth-service:8001"
+  TODO_URL: "http://todo-service:8002"
+  CORS_ORIGINS: "*"
+  UVICORN_HOST: "0.0.0.0"

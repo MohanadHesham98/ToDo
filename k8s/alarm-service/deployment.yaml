@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alarm-service
+  namespace: todo-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alarm-service
+  template:
+    metadata:
+      labels:
+        app: alarm-service
+    spec:
+      containers:
+      - name: alarm-service
+        image: todo-alarm-service:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8003
+        envFrom:
+        - configMapRef:
+            name: todo-config
+        - secretRef:
+            name: todo-secret

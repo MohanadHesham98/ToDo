@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: alarm-service
+  namespace: todo-app
+spec:
+  selector:
+    app: alarm-service
+  ports:
+  - port: 8003
+    targetPort: 8003
+  type: ClusterIP
