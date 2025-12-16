@@ -10,6 +10,7 @@ pipeline {
 
         stage('Checkout SCM') {
             steps {
+                echo 'Checking out source code...'
                 checkout scm
             }
         }
@@ -24,14 +25,18 @@ pipeline {
         stage('Save & Load Images into k3s') {
             steps {
                 script {
+                    // تعريف الخدمات اللي هنعمل لها save و import
                     def services = ['auth-service', 'todo-service', 'alarm-service', 'todo-frontend']
+
                     for (svc in services) {
                         def image = "todo-k3s-pipeline-${svc}:latest"
                         def tarFile = "${svc}.tar"
-                        echo "Saving ${image} to ${tarFile}..."
+
+                        echo "Saving Docker image: ${image} -> ${tarFile}"
                         sh "docker save ${image} -o ${tarFile}"
-                        echo "Importing ${tarFile} into k3s..."
-                        sh "sudo ctr -n k8s.io images import ${tarFile}"
+
+                        echo "Importing ${tarFile} into k3s containerd..."
+                        sh "sudo k3s ctr -n k8s.io images import ${tarFile}"
                     }
                 }
             }
@@ -56,7 +61,7 @@ pipeline {
     post {
         always {
             echo 'Cleaning up tar files...'
-            sh 'rm -f auth-service.tar todo-service.tar alarm-service.tar todo-frontend.tar'
+            sh 'rm -f *.tar'
         }
     }
 }
