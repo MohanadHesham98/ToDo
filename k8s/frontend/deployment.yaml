@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: todo-frontend
-        image: todo-todo-frontend:latest
+        image: todo-k3s-pipeline-todo-frontend:latest
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80
