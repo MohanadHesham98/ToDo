@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: alarm-service
-        image: todo-alarm-service:latest
+        image: todo-k3s-pipeline-alarm-service:latest
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8003
