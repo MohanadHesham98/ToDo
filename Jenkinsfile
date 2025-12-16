@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: "${BRANCH}", url: "${REPO_URL}", credentialsId: 'GIT_CREDENTIALS_ID'
+                git branch: "${BRANCH}", url: "${REPO_URL}", credentialsId: 'GITHUB_PAT'
             }
         }
         stage('Build Docker Images') {
