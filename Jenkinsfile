@@ -11,20 +11,18 @@ pipeline {
                 git branch: "${BRANCH}", url: "${REPO_URL}", credentialsId: 'GITHUB_PAT'
             }
         }
-
         stage('Build Docker Images') {
             steps {
                 echo 'Building Docker images using docker-compose...'
                 sh 'docker compose build'
             }
         }
-
         stage('Save & Load Images into k3s') {
             steps {
                 echo 'Saving Docker images and loading into k3s...'
                 sh '''
-                SERVICES=("auth-service" "todo-service" "alarm-service" "todo-frontend")
-                for SERVICE in "${SERVICES[@]}"; do
+                #!/bin/sh
+                for SERVICE in auth-service todo-service alarm-service todo-frontend; do
                     IMAGE="todo-k3s-pipeline-${SERVICE}:latest"
                     TAR_FILE="${SERVICE}.tar"
                     echo "Saving $IMAGE to $TAR_FILE..."
@@ -35,7 +33,6 @@ pipeline {
                 '''
             }
         }
-
         stage('Deploy to k3s') {
             steps {
                 echo 'Applying Kubernetes manifests...'
