@@ -3,6 +3,7 @@ version: '3.9'
 services:
   auth-service:
     build: ./auth-service
+    image: todo-k3s-pipeline-auth-service:latest  
     container_name: auth-service
     env_file:
       - .env
@@ -15,6 +16,7 @@ services:
 
   todo-service:
     build: ./todo-service
+    image: todo-k3s-pipeline-todo-service:latest
     container_name: todo-service
     env_file:
       - .env
@@ -29,6 +31,7 @@ services:
 
   alarm-service:
     build: ./alarm-service
+    image: todo-k3s-pipeline-alarm-service:latest
     container_name: alarm-service
     env_file:
       - .env
@@ -37,7 +40,6 @@ services:
     depends_on:
       - auth-service
       - todo-service
-
     networks:
       - todo-network
     volumes:
@@ -45,6 +47,7 @@ services:
 
   todo-frontend:
     build: ./frontend
+    image: todo-k3s-pipeline-todo-frontend:latest
     container_name: todo-frontend
     ports:
       - "8080:80"
