@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKER_COMPOSE_FILE = 'docker-compose.yml'
-        KUBECONFIG = '/var/lib/jenkins/.kube/config'  // استخدم kubeconfig الخاص بالـ Jenkins
+        KUBECONFIG = '/var/lib/jenkins/.kube/config'  
     }
 
     stages {
@@ -25,7 +25,7 @@ pipeline {
         stage('Save & Load Images into k3s') {
             steps {
                 script {
-                    // تعريف الخدمات اللي هنعمل لها save و import
+                  
                     def services = ['auth-service', 'todo-service', 'alarm-service', 'todo-frontend']
 
                     for (svc in services) {
