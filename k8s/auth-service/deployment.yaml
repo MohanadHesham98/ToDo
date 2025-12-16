@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: auth-service
-        image: todo-auth-service:latest
+        image: todo-k3s-pipeline-auth-service:latest
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8001
