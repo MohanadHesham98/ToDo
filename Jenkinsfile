@@ -11,28 +11,31 @@ pipeline {
                 git branch: "${BRANCH}", url: "${REPO_URL}", credentialsId: 'GITHUB_PAT'
             }
         }
+
         stage('Build Docker Images') {
             steps {
                 echo 'Building Docker images using docker-compose...'
                 sh 'docker compose build'
             }
         }
+
         stage('Save & Load Images into k3s') {
             steps {
                 echo 'Saving Docker images and loading into k3s...'
                 sh '''
-                docker save auth-service:latest -o auth-service.tar
-                docker save todo-service:latest -o todo-service.tar
-                docker save alarm-service:latest -o alarm-service.tar
-                docker save todo-frontend:latest -o todo-frontend.tar
-
-                sudo ctr -n k8s.io images import auth-service.tar
-                sudo ctr -n k8s.io images import todo-service.tar
-                sudo ctr -n k8s.io images import alarm-service.tar
-                sudo ctr -n k8s.io images import todo-frontend.tar
+                SERVICES=("auth-service" "todo-service" "alarm-service" "todo-frontend")
+                for SERVICE in "${SERVICES[@]}"; do
+                    IMAGE="todo-k3s-pipeline-${SERVICE}:latest"
+                    TAR_FILE="${SERVICE}.tar"
+                    echo "Saving $IMAGE to $TAR_FILE..."
+                    docker save $IMAGE -o $TAR_FILE
+                    echo "Importing $TAR_FILE into k3s..."
+                    sudo ctr -n k8s.io images import $TAR_FILE
+                done
                 '''
             }
         }
+
         stage('Deploy to k3s') {
             steps {
                 echo 'Applying Kubernetes manifests...'
