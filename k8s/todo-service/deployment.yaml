@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: todo-service
-        image: todo-todo-service:latest
+        image: todo-k3s-pipeline-todo-service:latest
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8002
