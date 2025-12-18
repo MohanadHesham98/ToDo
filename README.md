@@ -95,7 +95,7 @@ kubectl apply -f frontend/
 
 ## Deployment Video
 
-[▶️ Watch Video](INSERT_YOUR_VIDEO_LINK_HERE)
+[▶️ Watch Video](https://github.com/MohanadHesham98/ToDo/blob/k3s/ToDo.mp4)
 
 ## Contact
 
