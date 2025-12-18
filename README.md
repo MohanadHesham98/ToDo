@@ -43,6 +43,8 @@ Containerized using Docker, deployed on K3s Kubernetes, with Jenkins CI/CD.
 - User authentication via email
 
 ---
+Features
+
 Project Structure
 ToDo/
 ├── alarm-service/
