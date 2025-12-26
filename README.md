@@ -6,6 +6,19 @@ ToDo App is a full-stack application that allows users to manage their tasks wit
 
 The application is containerized using Docker, deployed on K3s Kubernetes, and integrated with Jenkins CI/CD.
 
+---
+
+## Deployment Video
+
+[▶️ Watch Video](https://github.com/MohanadHesham98/ToDo/blob/k3s/ToDo.mp4)
+
+
+
+https://github.com/user-attachments/assets/215ba629-81ea-4d70-af1f-1f42f0b8239f
+
+
+---
+
 ## Architecture & Services
 
 ### Services
@@ -93,9 +106,6 @@ kubectl apply -f frontend/
 * 📧 Uses SMTP account to send task alarms
 * 👤 User email is registered in auth-service for alarm-service
 
-## Deployment Video
-
-[▶️ Watch Video](https://github.com/MohanadHesham98/ToDo/blob/k3s/ToDo.mp4)
 
 ## Contact
 
